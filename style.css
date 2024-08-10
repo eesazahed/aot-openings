@@ -8,12 +8,38 @@ body {
   height: 100vh;
   background: black;
   color: white;
+  text-align: center;
+  line-height: 2.5rem;
+  overflow: hidden;
+}
+
+main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-image: url("./assets/images/aot3.gif");
+  background-position: center;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  line-height: 2.5rem;
+}
+
+main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+main > * {
+  position: relative;
+  z-index: 2;
 }
 
 button {
