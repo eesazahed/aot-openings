@@ -1,3 +1,4 @@
+const main = document.querySelector("main");
 const nowPlaying = document.getElementById("now-playing");
 const songList = document.getElementById("song-list");
 const playPauseBtn = document.getElementById("play-pause-btn");
@@ -18,17 +19,27 @@ const audios = [
   "The Rumbling",
 ];
 
-audios.forEach((audioName) => {
-  const songId = audios.indexOf(audioName);
+document.addEventListener("DOMContentLoaded", () => {
+  const randomNumber = Math.floor(Math.random() * 4) + 1;
+  main.style.backgroundImage = `url("./assets/images/aot${randomNumber}.gif")`;
+});
 
+audios.forEach((audioName, index) => {
   let songListItem = document.createElement("p");
-  songListItem.innerText = audioName;
+
+  songListItem.innerHTML = `${audioName} <span class="song-list-index">${
+    index + 1
+  }</span>`;
   songListItem.setAttribute("class", "song-list-item");
-  songListItem.onclick = () => playSong(songId);
+  songListItem.setAttribute("id", index);
+  songListItem.onclick = () => playSong(index);
+
   songList.append(songListItem);
 });
 
 const playSong = (songId) => {
+  currentAudioId = songId;
+
   if (nowPlaying.style.opacity !== 1) {
     nowPlaying.style.opacity = 1;
   }
@@ -38,25 +49,31 @@ const playSong = (songId) => {
     currentAudio.currentTime = 0;
   }
 
-  nowPlaying.innerText = `OP ${songId + 1}: ${audios[songId]}`;
+  document.title = `${audios[currentAudioId]} - Attack on Titan (Shingeki no Kyojin) Openings`;
+  nowPlaying.innerText = audios[currentAudioId];
 
-  songId === 6
+  currentAudioId === 6
     ? nowPlaying.setAttribute("class", "rumble")
     : nowPlaying.classList.remove("rumble");
 
-  currentAudio = new Audio(`./assets/sounds/${songId}.mp3`);
-  currentAudioId = songId;
+  currentAudio = new Audio(`./assets/sounds/${currentAudioId}.mp3`);
   currentAudio.play();
 
   isPlaying = true;
 
-  playPauseBtn.style.background = "darkgreen";
-  playPauseBtn.innerText = "Pause";
+  playPauseBtn.innerHTML = "&#x23F8;";
 
   currentAudio.onended = () => {
-    const nextSongId = songId % audios.length;
+    const nextSongId = currentAudioId % audios.length;
     playSong(nextSongId);
   };
+
+  const lastActiveSong = document.querySelector(".active-song");
+  if (lastActiveSong) {
+    lastActiveSong.classList.remove("active-song");
+  }
+
+  document.getElementById(currentAudioId).classList.add("active-song");
 };
 
 const togglePlayBtn = () => {
@@ -64,13 +81,15 @@ const togglePlayBtn = () => {
     playSong(0);
   } else {
     if (isPlaying) {
-      playPauseBtn.style.background = "green";
       currentAudio.pause();
-      playPauseBtn.innerText = "Play";
+      playPauseBtn.innerHTML = "&#x23F5;";
+
+      if (currentAudioId === 6) nowPlaying.classList.remove("rumble");
     } else {
-      playPauseBtn.style.background = "darkgreen";
       currentAudio.play();
-      playPauseBtn.innerText = "Pause";
+      playPauseBtn.innerHTML = "&#x23F8;";
+
+      if (currentAudioId === 6) nowPlaying.setAttribute("class", "rumble");
     }
 
     isPlaying = !isPlaying;

@@ -16,7 +16,6 @@ main {
   position: relative;
   width: 100%;
   height: 100%;
-  background-image: url("./assets/images/aot.gif");
   background-position: center;
   background-size: cover;
   display: flex;
@@ -42,7 +41,7 @@ main > * {
 }
 
 #song-player {
-  width: 33%;
+  width: 33vw;
   background-color: black;
   border-radius: 1rem;
   text-align: left;
@@ -50,30 +49,41 @@ main > * {
 }
 
 #now-playing-container {
-  padding: 0rem 1rem;
+  padding: 1rem;
+  display: flex;
 }
 
 #now-playing {
+  margin-left: 0.25rem;
   opacity: 0;
+  flex: 1;
   color: cyan;
+}
+
+#song-list {
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  margin: 0.25rem 1rem;
+  padding: 0.75rem 0rem;
 }
 
 .song-list-item {
   cursor: pointer;
   margin: 0;
-  padding: 0.25rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem;
+}
+
+.song-list-index {
+  width: 1rem;
+  text-align: center;
+  color: gray;
 }
 
 .song-list-item:hover {
   background: #323232;
-}
-
-.song-list-item:first-child {
-  padding-top: 0.5rem;
-}
-
-.song-list-item:last-child {
-  padding-bottom: 0.5rem;
 }
 
 #controls {
@@ -88,20 +98,25 @@ button {
   border: none;
   color: white;
   cursor: pointer;
-  border-radius: 3rem;
+  border-radius: 10rem;
   transition: 0.3s;
 }
 
 button:hover {
-  filter: drop-shadow(0 0 15px #cdfff8cc);
+  filter: drop-shadow(0 0 10px #cdfff8cc);
 }
 
 #play-pause-btn {
-  background-color: #129e37;
+  background-color: #26cf53;
+  width: 4rem;
+  font-size: 3rem;
+  padding: 0;
+  line-height: normal;
 }
 
 #back-btn,
 #next-btn {
+  font-size: 1.5rem;
   background-color: #323232;
 }
 
@@ -148,4 +163,10 @@ button:hover {
 
 .active-song {
   background-color: #323232;
+}
+
+@media screen and (max-width: 950px) {
+  #song-player {
+    width: 80vw;
+  }
 }
