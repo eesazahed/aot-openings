@@ -8,7 +8,6 @@ body {
   height: 100vh;
   background: black;
   color: white;
-  text-align: center;
   overflow: hidden;
 }
 
@@ -44,13 +43,35 @@ main > * {
   width: 33vw;
   background-color: black;
   border-radius: 1rem;
-  text-align: left;
   overflow: hidden;
 }
 
-#now-playing-container {
-  padding: 1rem;
+#title {
+  text-align: center;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  line-height: 2.5rem;
+}
+
+#aot {
+  cursor: pointer;
+}
+
+#now-playing-container,
+#progress {
+  padding: 0.5rem 1rem 1rem 1rem;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#current-audio,
+#audio-length {
+  width: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
 }
 
 #now-playing {

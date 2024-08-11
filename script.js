@@ -1,9 +1,16 @@
 const main = document.querySelector("main");
+
 const nowPlaying = document.getElementById("now-playing");
 const songList = document.getElementById("song-list");
+
 const playPauseBtn = document.getElementById("play-pause-btn");
 const backBtn = document.getElementById("back-btn");
 const nextBtn = document.getElementById("next-btn");
+
+const currentAudioTime = document.getElementById("current-audio");
+const audioLength = document.getElementById("audio-length");
+
+const aot = document.getElementById("aot");
 
 let currentAudio = null;
 let currentAudioId = null;
@@ -37,6 +44,20 @@ audios.forEach((audioName, index) => {
   songList.append(songListItem);
 });
 
+const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+
+  return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+};
+
+const update = () => {
+  if (currentAudio && !isNaN(currentAudio.duration)) {
+    currentAudioTime.innerText = formatTime(currentAudio.currentTime);
+    audioLength.innerText = formatTime(currentAudio.duration);
+  }
+};
+
 const playSong = (songId) => {
   currentAudioId = songId;
 
@@ -57,6 +78,8 @@ const playSong = (songId) => {
     : nowPlaying.classList.remove("rumble");
 
   currentAudio = new Audio(`./assets/sounds/${currentAudioId}.mp3`);
+  currentAudio.addEventListener("loadedmetadata", update);
+  currentAudio.addEventListener("timeupdate", update);
   currentAudio.play();
 
   isPlaying = true;
@@ -64,7 +87,8 @@ const playSong = (songId) => {
   playPauseBtn.innerHTML = "&#x23F8;";
 
   currentAudio.onended = () => {
-    const nextSongId = currentAudioId % audios.length;
+    const nextSongId =
+      currentAudioId !== audios.length - 1 ? currentAudioId + 1 : 0;
     playSong(nextSongId);
   };
 
@@ -112,4 +136,12 @@ nextBtn.addEventListener("click", () => {
   } else {
     playSong(currentAudioId + 1);
   }
+});
+
+aot.addEventListener("mouseover", (e) => {
+  aot.innerHTML = "Shingeki no Kyojin";
+});
+
+aot.addEventListener("mouseout", (e) => {
+  aot.innerHTML = "Attack on Titan";
 });
